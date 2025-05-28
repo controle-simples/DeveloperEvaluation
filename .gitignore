@@ -1,0 +1,18 @@
+## Visual Studio Files
+.vs/
+*.user
+*.suo
+*.cache
+*.db
+*.db-shm
+*.db-wal
+*.pdb
+*.log
+
+## Build Directories
+bin/
+obj/
+
+## Others
+*.vscode/
+*.log
