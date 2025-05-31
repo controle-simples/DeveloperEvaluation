@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Common.Pagination;
+﻿using Ambev.DeveloperEvaluation.Application.Common.DTOs;
+using Ambev.DeveloperEvaluation.Common.Pagination;
 using Ambev.DeveloperEvaluation.Common.Response;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -36,4 +37,17 @@ public class BaseController : ControllerBase
                 TotalCount = pagedList.TotalCount,
                 Success = true
             });
+
+    /// <summary>
+    /// Returns a paginated response using PagedResult (from Application layer).
+    /// </summary>
+    protected IActionResult OkPaginated<T>(PagedResult<T> pagedResult) =>
+        Ok(new PaginatedResponse<T>
+        {
+            Success = true,
+            Data = pagedResult.Items,
+            CurrentPage = pagedResult.CurrentPage,
+            TotalPages = pagedResult.TotalPages,
+            TotalCount = pagedResult.TotalCount
+        });
 }
