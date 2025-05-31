@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Common.Pagination;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 
@@ -28,4 +29,13 @@ public interface ISaleRepository
     /// Used for operations such as cancelling a sale.
     /// </summary>
     Task UpdateAsync(Sale sale, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves a paginated list of sales from the data source.
+    /// </summary>
+    /// <param name="page">The page number to retrieve (1-based).</param>
+    /// <param name="pageSize">The number of items per page.</param>
+    /// <param name="cancellationToken">Token to cancel the operation.</param>
+    Task<PaginatedList<Sale>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default);
+
 }
