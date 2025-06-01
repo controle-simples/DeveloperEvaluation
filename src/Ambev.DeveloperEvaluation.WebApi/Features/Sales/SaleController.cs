@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
+using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.Query.ListPagedSale;
 using Ambev.DeveloperEvaluation.Common.Pagination;
@@ -70,6 +71,22 @@ public class SaleController : BaseController
         try
         {
             var result = await _mediator.Send(new GetSaleCommand(id), cancellationToken);
+            return Ok(result);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(DeleteSaleResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Cancel(Guid id, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var result = await _mediator.Send(new DeleteSaleCommand(id), cancellationToken);
             return Ok(result);
         }
         catch (KeyNotFoundException)
