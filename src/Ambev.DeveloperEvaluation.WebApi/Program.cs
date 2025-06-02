@@ -7,6 +7,8 @@ using Ambev.DeveloperEvaluation.IoC;
 using Ambev.DeveloperEvaluation.ORM;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -77,6 +79,18 @@ public class Program
                     typeof(ApplicationLayer).Assembly,
                     typeof(Program).Assembly
                 );
+            });
+
+            // Enforce JWT authentication globally for all endpoints by default.
+            // Only explicitly marked endpoints (e.g., with [AllowAnonymous]) will bypass authentication.
+
+            builder.Services.AddControllers(options =>
+            {                
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy));
             });
 
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
