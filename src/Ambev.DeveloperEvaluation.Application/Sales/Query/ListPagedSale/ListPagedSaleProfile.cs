@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Application.Common.DTOs;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.Query.ListPagedSale
@@ -7,7 +8,9 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.Query.ListPagedSale
     {
         public ListPagedSaleProfile()
         {
-            CreateMap<Sale, SaleOutputDto>();
+            CreateMap<SaleItem, SaleItemResult>();
+            CreateMap<Sale, SaleOutputDto>()
+                .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
         }
     }
 }
