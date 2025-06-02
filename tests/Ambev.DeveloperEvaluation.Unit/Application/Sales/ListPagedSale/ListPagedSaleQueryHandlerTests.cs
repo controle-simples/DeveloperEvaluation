@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Application.Sales.Query.ListPagedSale;
+﻿using Ambev.DeveloperEvaluation.Application.Common.DTOs;
+using Ambev.DeveloperEvaluation.Application.Sales.Query.ListPagedSale;
 using Ambev.DeveloperEvaluation.Common.Pagination;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
@@ -51,8 +52,8 @@ public sealed class ListPagedSaleQueryHandlerTests
             Id = sale.Id,
             CustomerExternalId = sale.CustomerExternalId,
             BranchExternalId = sale.BranchExternalId,
-            Date = sale.SaleDate,
-            Total = sale.TotalAmount,
+            SaleDate = sale.SaleDate,
+            TotalAmount = sale.TotalAmount,
             Cancelled = sale.Cancelled
         };
 

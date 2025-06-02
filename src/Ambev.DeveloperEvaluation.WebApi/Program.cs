@@ -23,17 +23,22 @@ public class Program
         {
             Log.Information("Starting web application");
 
-            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Configura Serilog com base no appsettings.json
             builder.AddDefaultLogging();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
 
             builder.AddBasicHealthChecks();
-                        
+
             builder.Services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperEvaluation API", Version = "v1" });
+
+                // Solução para conflitos de tipos com mesmo nome (ex: SaleItemResult)
+                c.CustomSchemaIds(type => type.FullName);
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -81,11 +86,9 @@ public class Program
                 );
             });
 
-            // Enforce JWT authentication globally for all endpoints by default.
-            // Only explicitly marked endpoints (e.g., with [AllowAnonymous]) will bypass authentication.
-
+            // Aplicar autenticação global (exceto [AllowAnonymous])
             builder.Services.AddControllers(options =>
-            {                
+            {
                 var policy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build();
