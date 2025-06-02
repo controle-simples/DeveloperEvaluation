@@ -1,0 +1,17 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:17.5
+    container_name: ambev-postgres
+    environment:
+      POSTGRES_DB: developer_eval
+      POSTGRES_USER: ambev
+      POSTGRES_PASSWORD: dev2025
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
