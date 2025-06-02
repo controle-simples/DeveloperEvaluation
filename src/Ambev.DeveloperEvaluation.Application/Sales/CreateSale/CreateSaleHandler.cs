@@ -34,6 +34,8 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale
             {
                 sale.AddItem(product.ProductExternalId, product.Quantity, product.UnitPrice);
             }
+                        
+            sale.ValidateBusinessRules();
 
             await _saleRepository.AddAsync(sale, cancellationToken);
 

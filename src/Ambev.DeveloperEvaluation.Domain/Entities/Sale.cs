@@ -83,4 +83,19 @@ public sealed class Sale : BaseEntity
         Cancelled = true;
         AddDomainEvent(new SaleCancelledEvent(Id));
     }
+
+    /// <summary>
+    /// Validates business rules before persisting or processing the sale.
+    /// </summary>
+    public void ValidateBusinessRules()
+    {
+        if (!_items.Any())
+            throw new DomainException("A sale must contain at least one item.");
+
+        if (_items.Count < 3)
+            throw new DomainException("A sale must contain at least 3 items.");
+
+        if (_items.Any(item => item.Quantity < 1 || item.Quantity > 20))
+            throw new DomainException("Each item must have a quantity between 1 and 20.");
+    }
 }
