@@ -1,11 +1,13 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Common.DTOs;
 using Ambev.DeveloperEvaluation.Common.Pagination;
 using Ambev.DeveloperEvaluation.Common.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Common;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class BaseController : ControllerBase
