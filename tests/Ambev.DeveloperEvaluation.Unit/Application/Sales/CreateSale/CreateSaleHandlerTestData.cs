@@ -17,12 +17,13 @@ public static class CreateSaleHandlerTestData
     {
         return new CreateSaleCommand
         {
-            CustomerExternalId = faker.Random.Guid().ToString(),
-            BranchExternalId = faker.Random.Guid().ToString(),
+            CustomerExternalId = "customer-123",
+            BranchExternalId = "branch-123",
             Products = new List<CreateSaleProductItem>
             {
-                new() { ProductExternalId = faker.Commerce.Ean13(), Quantity = 5, UnitPrice = 100 },
-                new() { ProductExternalId = faker.Commerce.Ean13(), Quantity = 3, UnitPrice = 50 }
+                new() { ProductExternalId = "product-1", Quantity = 5, UnitPrice = 10m }, // 45
+                new() { ProductExternalId = "product-2", Quantity = 2, UnitPrice = 15m }, // 30
+                new() { ProductExternalId = "product-3", Quantity = 1, UnitPrice = 20m }  // 20
             }
         };
     }
