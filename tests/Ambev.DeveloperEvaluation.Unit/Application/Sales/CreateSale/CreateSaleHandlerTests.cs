@@ -23,15 +23,26 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Sales.CreateSale
             // Arrange
             var command = CreateSaleHandlerTestData.GenerateValidCommand();
 
+            // Sanidade: garantir que tem ao menos 3 produtos válidos
+            Assert.NotNull(command.Products);
+            Assert.True(command.Products.Count >= 3, "Command must contain at least 3 products.");
+
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
             Assert.NotEqual(Guid.Empty, result.Id);
-            Assert.True(result.TotalAmount > 0);
+            Assert.True(result.TotalAmount > 0); // Esperado: 95m se aplicar desconto
 
-            _saleRepositoryMock.Verify(x => x.AddAsync(It.IsAny<Sale>(), It.IsAny<CancellationToken>()), Times.Once);
+            _saleRepositoryMock.Verify(
+                x => x.AddAsync(It.Is<Sale>(s =>
+                    s.Id == result.Id &&
+                    s.TotalAmount == result.TotalAmount),
+                It.IsAny<CancellationToken>()),
+                Times.Once);
         }
+
+
 
         [Fact(DisplayName = "Should throw exception for product with empty external ID")]
         public async Task Handle_InvalidProduct_ShouldThrowException()
